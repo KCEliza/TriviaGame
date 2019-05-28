@@ -3,6 +3,7 @@ var counter = 0;
 var time = 30;
 var timer;
 var countDown = false;
+var questionNum= 0;
 var questions = [{
         question: "What is the average length of a male Black & White Argentine Tegu?",
         answers: [{
@@ -86,35 +87,56 @@ var questions = [{
 ]
 $("#start").on("click", startGame);
 
+function timerDown(){
+    $("#display").text(time);
+    time--;
+
+}
 
 
 function startGame() {
-    $("#start").hide();
-    if(!countDown){
+    // $("#start").hide();
+    // if(!countDown){
+     gameQuestions();
     countDown = true;
-    console.log(countDown + "countDown");
-    time = setInterval(gameQuestions, 1000);
-    var currentTime = timeConverter(time);
-    $("#display").text(time);
-    console.log(time + "time");
+    console.log(countDown + " countDown");
+    timer = setInterval(timerDown, 1000);
+    
+    console.log(time + " time");
 }
-}
+// }
 
 function gameQuestions() {
-    for (var i = 0; i < questions; i++) {
+    console.log("stuff");
+    for (var i = 0; i < questions.length; i++) {
+        // console.log(questions[i].question);
         $("#question").text(questions[i].question);
-        if (timer !== 0) {
-            console.log("timing stuff");
-            if (value == true) {
-                //show you're right
+        for(var j = 0; j < questions[i].answers.length; j++)
+        {
+            console.log(questions[i].answers[j].answer);
 
-            } else {
-
-                //show you're wrong
-            }
-        } else {
-            //show you're out of time + correct answer
-            console.log("out of time");
+            var optionChoice = $("<p>").text(questions[i].answers[j].answer);
+            $("#options").append(optionChoice);
         }
+        // while (time > 0) {
+
+        //     $("#question").on("click", function(){
+        //         console.log("string");
+        //     })
+        //     if (value == true) {
+        //         //show you're right
+
+        //     } else {
+
+        //         //show you're wrong+ correct answer
+        //     }
+         
     }
+    // else {
+    //     //show you're out of time + correct answer
+    //     console.log("out of time");
+    // }
+
 }
+
+
