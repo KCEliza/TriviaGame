@@ -3,7 +3,10 @@ var counter = 0;
 var time = 30;
 var timer;
 var countDown = false;
-var questionNum= 0;
+var incorrect = 0;
+var correct = 0;
+var unanswered = 0;
+var correctAnswer;
 var questions = [{
         question: "What is the average length of a male Black & White Argentine Tegu?",
         answers: [{
@@ -87,16 +90,23 @@ var questions = [{
 ]
 $("#start").on("click", startGame);
 
+$("body").on("click", "#options", function(){
+   
+    //if else for correct incorrect or unanswered
+    //betweenScreen("correct") etc.
+    //call functions created to count correct, incorrect or unanswered
+
+
+});
+
 function timerDown(){
     $("#display").text(time);
     time--;
-
 }
-
+ 
 
 function startGame() {
     // $("#start").hide();
-    // if(!countDown){
      gameQuestions();
     countDown = true;
     console.log(countDown + " countDown");
@@ -104,39 +114,39 @@ function startGame() {
     
     console.log(time + " time");
 }
-// }
 
 function gameQuestions() {
-    console.log("stuff");
-    for (var i = 0; i < questions.length; i++) {
-        // console.log(questions[i].question);
-        $("#question").text(questions[i].question);
-        for(var j = 0; j < questions[i].answers.length; j++)
-        {
-            console.log(questions[i].answers[j].answer);
-
-            var optionChoice = $("<p>").text(questions[i].answers[j].answer);
-            $("#options").append(optionChoice);
-        }
-        // while (time > 0) {
-
-        //     $("#question").on("click", function(){
-        //         console.log("string");
-        //     })
-        //     if (value == true) {
-        //         //show you're right
-
-        //     } else {
-
-        //         //show you're wrong+ correct answer
-        //     }
-         
-    }
-    // else {
-    //     //show you're out of time + correct answer
-    //     console.log("out of time");
-    // }
-
+    var answerCounter = questions[counter].answers;
+    var options = answerCounter.answer;
+    
+    //loop through answerCounter
+    
+    
+    counter++
+    
 }
 
+//function between
+function betweenScreen (answerGiven){
+if(answerGiven === "correct"){
+    //$("<p>") correct 
+}
+else if(answerGiven === "incorrect"){
+    //$("<p>") incorrect 
+    //
+}
+
+if (counter < questions.length){
+    gameQuestions();
+}
+else{
+    //endGame();
+}
+}
+    //gameQues
+
+//else
+    //display end of game}
+
+//function endGame
 
