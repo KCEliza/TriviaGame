@@ -1,11 +1,10 @@
 var game;
 var counter = 0;
-var time = 120;
+var time = 10;
 var timer;
 var countDown = false;
 var incorrect = 0;
 var correct = 0;
-var unanswered = 0;
 var correctAnswer;
 var questions = [{
         question: "What is the average length of a male Black & White Argentine Tegu?",
@@ -96,7 +95,7 @@ function startGame() {
     $("#start").hide();
     countDown = true;
     timer = setInterval(timerDown, 1000);
-    gameQuestions();
+    gameQuestions()
 
 }
 
@@ -104,10 +103,10 @@ function startGame() {
 function timerDown() {
     $("#display").text(time);
     time--;
-    if (time === 0 ) {
+    console.log(time);
+    if (time == 0 ) {
         clearInterval(timer);
-        //display betweenScreen of unanswered here
-        unanswered++;
+        endGame();
     }
 }
 
@@ -137,18 +136,35 @@ $("#options").on("click", ".option", function () {
     if ($(this).attr("answerValue") == "true") {
         correct++
         console.log(correct + "!!!");
-        //display betweenscreen correct
+        counter++;
+        // alert("YAY");
+        betweenScreen("true");
+        
+
 
     }
     else{
         incorrect++
         console.log(incorrect + "$$$");
-        //display betweenScreen incorrect
+        counter++;
+        betweenScreen("false");
     }
 })
 
+
+function endGame(){
+    alert("end of game");
+    // $("<p>").append("YOU MADE IT TO THE END!");
+    // $("<p>").append("Total Correct: " + correct);
+    // $("<p>").append("Total Inorrect: " + incorrect);
+}
 //betweenScreen function needs to do an if/else for which answer type is chosen and display appropriate betweenScreen
 //between screen potentially unnecessary. Could create between screen in if/else of on/click?
-function betweenScreen() {
-
+function betweenScreen(answerGiven) {
+if(answerGiven === "true"){
+    $("#image-holder").html("<img src='assets/images/correct.jpg' />" )
+}
+else{
+    $("#image-holder").html("<img src='assets/images/wrong.png' />" )
+}
 }
