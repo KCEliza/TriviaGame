@@ -89,17 +89,22 @@ var questions = [{
     }
 ]
 $("#start").on("click", startGame);
-
+//on click of an answer, if answer value = true
+//display between screen, correct++, stopTime function
 $("body").on("click", ".option", function(){
    
     console.log(typeof $(this).attr("answerValue"));
     if($(this).attr("answerValue") === "true"){
         console.log("correct");
         stopTime()
+        correct++;
+        betweenScreen("true");
     }
     else {
         console.log("incorrect");
         stopTime();
+        incorrect++;
+        betweenScreen("false");
     }
     
 
@@ -112,6 +117,7 @@ function timerDown(){
     time--;
     if (time === 0){
         stopTime();
+        betweenScreen("unanswered");
         console.log("out of time");
     }
     
@@ -119,10 +125,11 @@ function timerDown(){
 }
  function stopTime(){
     clearInterval();
+    
  }
 
 function startGame() {
-    // $("#start").hide();
+    $("#start").hide();
      gameQuestions();
     countDown = true;
     console.log(countDown + " countDown");
@@ -152,10 +159,11 @@ function gameQuestions() {
 
 //function between
 function betweenScreen (answerGiven){
-if(answerGiven === "correct"){
-    //$("<p>") correct 
+    
+if(answerGiven === "true"){
+    $("<p>").text("YAY! You got it right!");
 }
-else if(answerGiven === "incorrect"){
+else if(answerGiven === "false"){
     //$("<p>") incorrect 
     //
 }
@@ -172,5 +180,17 @@ else{
 //else
     //display end of game}
 
-//function endGame
-
+function endGame(){
+    $("<p>").append("YOU MADE IT TO THE END!");
+    $("<p>").append("Total Correct: " + correct);
+    $("<p>").append("Total Inorrect: " + incorrect);
+    $("<p>").append("Total Unanswered: " + unanswered);
+}
+function resetGame() {
+    counter = 0;
+    correctCounter = 0;
+    incorrectCounter = 0;
+    unansweredCounter = 0;
+    timer = 30;
+    startGame();
+  }
