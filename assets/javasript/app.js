@@ -131,18 +131,19 @@ function gameQuestions() {
     counter++
 }
 //on click of an answer, go to betweenScreen
-$("body").on("click", ".option", function () {
-
+$("#options").on("click", ".option", function () {
+    
+console.log("I am inside the click function");
     //if correct
     if ($("#options") === true) {
         correct++
-        console.log(correct);
+        console.log(correct + "!!!");
         //display betweenscreen correct
 
     }
     else{
         incorrect++
-        console.log(incorrect);
+        console.log(incorrect + "$$$");
         //display betweenScreen incorrect
     }
 })
