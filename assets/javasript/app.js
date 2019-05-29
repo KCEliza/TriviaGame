@@ -104,7 +104,7 @@ function startGame() {
 function timerDown() {
     $("#display").text(time);
     time--;
-    if (time === 0) {
+    if (time === 0 ) {
         clearInterval(timer);
         //display betweenScreen of unanswered here
         unanswered++;
@@ -133,9 +133,8 @@ function gameQuestions() {
 //on click of an answer, go to betweenScreen
 $("#options").on("click", ".option", function () {
     
-console.log("I am inside the click function");
     //if correct
-    if ($("#options") === true) {
+    if ($(this).attr("answerValue") == "true") {
         correct++
         console.log(correct + "!!!");
         //display betweenscreen correct
