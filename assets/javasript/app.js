@@ -104,7 +104,11 @@ function startGame() {
 function timerDown() {
     $("#display").text(time);
     time--;
-    //still make stop at 0
+    if (time === 0) {
+        clearInterval(timer);
+        //display betweenScreen of unanswered here
+        unanswered++;
+    }
 }
 
 //function for gameQuestions needs to display one question at a time, corresponding answers, called in startGame.
@@ -126,7 +130,25 @@ function gameQuestions() {
 
     counter++
 }
+//on click of an answer, go to betweenScreen
+$("body").on("click", ".option", function () {
+
+    //if correct
+    if ($("#options") === true) {
+        correct++
+        console.log(correct);
+        //display betweenscreen correct
+
+    }
+    else{
+        incorrect++
+        console.log(incorrect);
+        //display betweenScreen incorrect
+    }
+})
+
 //betweenScreen function needs to do an if/else for which answer type is chosen and display appropriate betweenScreen
-function betweenScreen (){
-    
+//between screen potentially unnecessary. Could create between screen in if/else of on/click?
+function betweenScreen() {
+
 }
