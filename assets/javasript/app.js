@@ -1,6 +1,6 @@
 var game;
 var counter = 0;
-var time = 10;
+var time = 120;
 var timer;
 var countDown = false;
 var incorrect = 0;
@@ -128,7 +128,7 @@ function gameQuestions() {
     }
 
     counter++
-}
+
 //on click of an answer, go to betweenScreen
 $("#options").on("click", ".option", function () {
     
@@ -136,9 +136,9 @@ $("#options").on("click", ".option", function () {
     if ($(this).attr("answerValue") == "true") {
         correct++
         console.log(correct + "!!!");
-        counter++;
         // alert("YAY");
         betweenScreen("true");
+        gameQuestions();
         
 
 
@@ -148,9 +148,10 @@ $("#options").on("click", ".option", function () {
         console.log(incorrect + "$$$");
         counter++;
         betweenScreen("false");
+        gameQuestions();
     }
 })
-
+}
 
 function endGame(){
     alert("end of game");
@@ -159,10 +160,10 @@ function endGame(){
     // $("<p>").append("Total Inorrect: " + incorrect);
 }
 //betweenScreen function needs to do an if/else for which answer type is chosen and display appropriate betweenScreen
-//between screen potentially unnecessary. Could create between screen in if/else of on/click?
 function betweenScreen(answerGiven) {
 if(answerGiven === "true"){
     $("#image-holder").html("<img src='assets/images/correct.jpg' />" )
+    $("<h2>").text("You are Correct")
 }
 else{
     $("#image-holder").html("<img src='assets/images/wrong.png' />" )
