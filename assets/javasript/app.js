@@ -90,11 +90,19 @@ var questions = [{
 ]
 $("#start").on("click", startGame);
 
-$("body").on("click", "#options", function(){
+$("body").on("click", ".option", function(){
    
-    //if else for correct incorrect or unanswered
-    //betweenScreen("correct") etc.
-    //call functions created to count correct, incorrect or unanswered
+    console.log(typeof $(this).attr("answerValue"));
+    if($(this).attr("answerValue") === "true"){
+        console.log("correct");
+        stopTime()
+    }
+    else {
+        console.log("incorrect");
+        stopTime();
+    }
+    
+
 
 
 });
@@ -102,8 +110,16 @@ $("body").on("click", "#options", function(){
 function timerDown(){
     $("#display").text(time);
     time--;
+    if (time === 0){
+        stopTime();
+        console.log("out of time");
+    }
+    
+
 }
- 
+ function stopTime(){
+    clearInterval();
+ }
 
 function startGame() {
     // $("#start").hide();
@@ -118,7 +134,15 @@ function startGame() {
 function gameQuestions() {
     var answerCounter = questions[counter].answers;
     var options = answerCounter.answer;
-    
+    $("#question").text(questions[counter].question);
+    for(var j = 0; j < questions[counter].answers.length; j++){
+      console.log(questions[counter].answers[j].answer);
+
+      var optionChoice = $("<p>").text(questions[counter].answers[j].answer);
+      optionChoice.attr("answerValue", questions[counter].answers[j].value );
+      optionChoice.addClass("option")
+      $("#options").append(optionChoice);
+    }
     //loop through answerCounter
     
     
@@ -137,7 +161,7 @@ else if(answerGiven === "incorrect"){
 }
 
 if (counter < questions.length){
-    gameQuestions();
+    startGame();
 }
 else{
     //endGame();
