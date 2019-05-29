@@ -1,6 +1,6 @@
 var game;
 var counter = 0;
-var time = 30;
+var time = 120;
 var timer;
 var countDown = false;
 var incorrect = 0;
@@ -88,109 +88,45 @@ var questions = [{
         ]
     }
 ]
+//starts the game on the click of ID start
 $("#start").on("click", startGame);
-//on click of an answer, if answer value = true
-//display between screen, correct++, stopTime function
-$("body").on("click", ".option", function(){
-   
-    console.log(typeof $(this).attr("answerValue"));
-    if($(this).attr("answerValue") === "true"){
-        console.log("correct");
-        stopTime()
-        correct++;
-        betweenScreen("true");
-    }
-    else {
-        console.log("incorrect");
-        stopTime();
-        incorrect++;
-        betweenScreen("false");
-    }
-    
 
-
-
-});
-
-function timerDown(){
-    $("#display").text(time);
-    time--;
-    if (time === 0){
-        stopTime();
-        betweenScreen("unanswered");
-        console.log("out of time");
-    }
-    
-
-}
- function stopTime(){
-    clearInterval();
-    
- }
-
+//when the game starts you need to hide start button, start timer, display first question
 function startGame() {
     $("#start").hide();
-     gameQuestions();
     countDown = true;
-    console.log(countDown + " countDown");
     timer = setInterval(timerDown, 1000);
-    
-    console.log(time + " time");
+    gameQuestions();
+
 }
 
+//function for timerDown needs to make the timer count down from 120, and stop at 0
+function timerDown() {
+    $("#display").text(time);
+    time--;
+    //still make stop at 0
+}
+
+//function for gameQuestions needs to display one question at a time, corresponding answers, called in startGame.
 function gameQuestions() {
     var answerCounter = questions[counter].answers;
     var options = answerCounter.answer;
+
     $("#question").text(questions[counter].question);
-    for(var j = 0; j < questions[counter].answers.length; j++){
-      console.log(questions[counter].answers[j].answer);
 
-      var optionChoice = $("<p>").text(questions[counter].answers[j].answer);
-      optionChoice.attr("answerValue", questions[counter].answers[j].value );
-      optionChoice.addClass("option")
-      $("#options").append(optionChoice);
+
+    for (var i = 0; i < questions[counter].answers.length; i++) {
+
+        var optionChoice = $("<p>").text(questions[counter].answers[i].answer);
+        //attr sets the value of true to the answers, without displaying which answer is true or false
+        optionChoice.attr("answerValue", questions[counter].answers[i].value);
+        optionChoice.addClass("option")
+        $("#options").append(optionChoice);
     }
-    //loop through answerCounter
-    
-    
+
     counter++
+}
+//betweenScreen function needs to do an if/else for which answer type is chosen and display appropriate betweenScreen
+function betweenScreen (){
     
 }
-
-//function between
-function betweenScreen (answerGiven){
-    
-if(answerGiven === "true"){
-    $("<p>").text("YAY! You got it right!");
-}
-else if(answerGiven === "false"){
-    //$("<p>") incorrect 
-    //
-}
-
-if (counter < questions.length){
-    startGame();
-}
-else{
-    //endGame();
-}
-}
-    //gameQues
-
-//else
-    //display end of game}
-
-function endGame(){
-    $("<p>").append("YOU MADE IT TO THE END!");
-    $("<p>").append("Total Correct: " + correct);
-    $("<p>").append("Total Inorrect: " + incorrect);
-    $("<p>").append("Total Unanswered: " + unanswered);
-}
-function resetGame() {
-    counter = 0;
-    correctCounter = 0;
-    incorrectCounter = 0;
-    unansweredCounter = 0;
-    timer = 30;
-    startGame();
-  }
