@@ -1,99 +1,89 @@
 var game;
 var counter = 0;
-var time = 120;
 var timer;
 var countDown = false;
 var incorrect = 0;
 var correct = 0;
 var correctAnswer;
 
-//starts the game on the click of ID start
-$("#start").on("click", startGame);
+reset();
 
-//when the game starts you need to hide start button, start timer, display first question
-function startGame() {
+//reset function
+function reset() {
+    $("#timer").hide();
+    $("#quiz").hide();
+    $("#submit-results").hide();
+    $("#finalScore").hide();
+    $("#startOver").hide();
+    $("#start").show();
+
+    $(':checked').each(function () {
+        $(this).removeAttr('checked');
+        $('input[type="radio"]').prop('checked', false);
+    })
+
+}
+//starts the on click when you hit the start button
+$("#start").on("click", function () {
     $("#start").hide();
-    countDown = true;
-    timer = setInterval(timerDown, 1000);
-    gameQuestions()
+    $("#directions").hide();
+    $("#quiz").show();
+    $("#timer").show();
+    $("#submit-results").show();
+    $("#time-left").empty();
+    finalScore = 0;
+    var time = 120;
 
-}
+    $('input:checked').removeAttr('checked');
 
-//function for timerDown needs to make the timer count down from 120, and stop at 0
-function timerDown() {
-    $("#display").text(time);
-    time--;
-    console.log(time);
-    if (time == 0 ) {
-        clearInterval(timer);
-        endGame();
-    }
-}
+    run();
 
-//function for gameQuestions needs to display one question at a time, corresponding answers, called in startGame.
-function gameQuestions() {
-    var answerCounter = questions[counter].answers;
-    var options = answerCounter.answer;
-
-    $("#question").text(questions[counter].question);
-
-
-    for (var i = 0; i < questions[counter].answers.length; i++) {
-
-        var optionChoice = $("<p>").text(questions[counter].answers[i].answer);
-        //attr sets the value of true to the answers, without displaying which answer is true or false
-        optionChoice.attr("answerValue", questions[counter].answers[i].value);
-        optionChoice.addClass("option")
-        $("#options").append(optionChoice);
+    function run() {
+        intervalId = setInterval(decrement, 1000);
     }
 
-    counter++
+    function decrement() {
 
-//on click of an answer, go to betweenScreen
-$("#options").on("click", ".option", function () {
-    
-    //if correct
-    if ($(this).attr("answerValue") == "true") {
-        correct++
-        console.log(correct + "!!!");
-        // alert("YAY");
-        betweenScreen("true");
-        gameQuestions();
-        
-        
+        time--;
 
+        $("#time-left").text("<h4>Time Remaining: </h4><br><h2>" + time + "</h2>");
 
-    }
-    else{
-        incorrect++
-        console.log(incorrect + "$$$");
-        counter++;
-        betweenScreen("false");
-        gameQuestions();
+        if (time === 0) {
+            clearInterval(intervalId);
+            $("#time-left").text("<h2>Out of Time!</h2>");
+            $("#quiz").hide();
+            $("#submit-results").hide();
+            $("#startOver").show();
+        }
     }
 })
-}
 
-function endGame(){
-    // $("<p>").append("YOU MADE IT TO THE END!");
-    // $("<p>").append("Total Correct: " + correct);
-    // $("<p>").append("Total Inorrect: " + incorrect);
-    
-      }
+$("#submit-results").on("click", function () {
+    $("#quiz").hide();
+    $("#timer").hide();
+    $("#submit-results").hide();
+    $("#startOver").show();
+    $("#finalScore").show();
+    clearInterval(intervalId);
 
-function displayImage() {
-    $("#image-holder").html("<img src='assets/images/correct.jpg'width='400px'>");
-  }
-//betweenScreen function needs to do an if/else for which answer type is chosen and display appropriate betweenScreen
-function betweenScreen(answerGiven) {
-if(answerGiven === "true"){
-    displayImage(setTimeout, 3000);
-    //add text to page You are correct
-    //display image then do set timeout to clear image after three seconds
-}
-else{
-    $("#image-holder").html("<img src='assets/images/wrong.png' />" )
-    setTimeout(displayImage, 3000);
-    //add text to page you are incorect + correct answer
-}
-}
+    var radios = $('input[type="radio"]:checked');
+
+    radios.each(function (index, radio) {
+        var radioValue = parseInt(radio.value);
+        finalScore += radioValue;
+    })
+
+    var Score = (parseInt(finalScore) / possibleScore).toFixed(3);
+    //if/else based on how well you did.
+    if (finalScore <= 3) {
+        $("#finalScore").text("<h4>Hmmm Maybe you should try again... <br><br>Final Score: " + Score);
+    } else if (finalScore >= 7) {
+        $("#finalScore").text("<h4> WooHoo! You know so much about reptiles!!! <br><br>Final Score: " + Score);
+    } else {
+        $("#finalScore").text("<h4>Mabe stick with a puppy <br><br>Final: " + Score);
+    }
+})
+
+$("#finalScore").on("click", function () {
+    reset();
+})
