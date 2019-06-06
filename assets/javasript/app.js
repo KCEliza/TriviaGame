@@ -6,87 +6,7 @@ var countDown = false;
 var incorrect = 0;
 var correct = 0;
 var correctAnswer;
-var questions = [{
-        question: "What is the average length of a male Black & White Argentine Tegu?",
-        answers: [{
-                answer: "4 feet",
-                value: false
-            },
-            {
-                answer: "4.5 feet",
-                value: true
-            },
-            {
-                answer: "5 feet",
-                value: false
-            },
-            {
-                answer: "5.5 feet",
-                value: false
-            }
-        ]
-    },
-    {
-        question: "Which country do panther chameleons originate from?",
-        answers: [{
-                answer: "China",
-                value: false
-            },
-            {
-                answer: "Brazil",
-                value: false
-            },
-            {
-                answer: "Australia",
-                value: false
-            },
-            {
-                answer: "Madagascar",
-                value: true
-            }
-        ]
-    },
-    {
-        question: "How many chambers does a snake have in it's heart?",
-        answers: [{
-                answer: "3",
-                value: true
-            },
-            {
-                answer: "2",
-                value: false
-            },
-            {
-                answer: "4",
-                value: false
-            },
-            {
-                answer: "1",
-                value: false
-            }
-        ]
-    },
-    {
-        question: "What is the average lifespan of a captive bred leopard gecko",
-        answers: [{
-                answer: "5 years",
-                value: false
-            },
-            {
-                answer: "8 years",
-                value: false
-            },
-            {
-                answer: "10 years",
-                value: true
-            },
-            {
-                answer: "15 years",
-                value: false
-            }
-        ]
-    }
-]
+
 //starts the game on the click of ID start
 $("#start").on("click", startGame);
 
@@ -140,6 +60,7 @@ $("#options").on("click", ".option", function () {
         betweenScreen("true");
         gameQuestions();
         
+        
 
 
     }
@@ -154,18 +75,25 @@ $("#options").on("click", ".option", function () {
 }
 
 function endGame(){
-    alert("end of game");
     // $("<p>").append("YOU MADE IT TO THE END!");
     // $("<p>").append("Total Correct: " + correct);
     // $("<p>").append("Total Inorrect: " + incorrect);
-}
+    
+      }
+
+function displayImage() {
+    $("#image-holder").html("<img src='assets/images/correct.jpg'width='400px'>");
+  }
 //betweenScreen function needs to do an if/else for which answer type is chosen and display appropriate betweenScreen
 function betweenScreen(answerGiven) {
 if(answerGiven === "true"){
-    $("#image-holder").html("<img src='assets/images/correct.jpg' />" )
-    $("<h2>").text("You are Correct")
+    displayImage(setTimeout, 3000);
+    //add text to page You are correct
+    //display image then do set timeout to clear image after three seconds
 }
 else{
     $("#image-holder").html("<img src='assets/images/wrong.png' />" )
+    setTimeout(displayImage, 3000);
+    //add text to page you are incorect + correct answer
 }
 }
