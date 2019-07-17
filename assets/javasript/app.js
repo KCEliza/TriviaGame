@@ -1,20 +1,19 @@
-var game;
-var counter = 0;
-var timer;
-var countDown = false;
-var incorrect = 0;
-var correct = 0;
-var correctAnswer;
-
+    
+var finalScore = 0;
+var possibleScore = 10;
+var intervalId;
 reset();
+$("#directions").html("<h5>See how much you know about the wonderful reptiles of our world</h5>");
 
-//reset function
+
+
 function reset() {
     $("#timer").hide();
     $("#quiz").hide();
     $("#submit-results").hide();
     $("#finalScore").hide();
-    $("#startOver").hide();
+    $("#playAgain").hide();
+    $("#directions").show();
     $("#start").show();
 
     $(':checked').each(function () {
@@ -23,7 +22,7 @@ function reset() {
     })
 
 }
-//starts the on click when you hit the start button
+
 $("#start").on("click", function () {
     $("#start").hide();
     $("#directions").hide();
@@ -46,14 +45,14 @@ $("#start").on("click", function () {
 
         time--;
 
-        $("#time-left").text("<h4>Time Remaining: </h4><br><h2>" + time + "</h2>");
+        $("#time-left").html("<h4>Time Remaining: </h4><br><h2>" + time + "</h2>");
 
         if (time === 0) {
             clearInterval(intervalId);
-            $("#time-left").text("<h2>Out of Time!</h2>");
+            $("#time-left").html("<h2>Time's Up!</h2>");
             $("#quiz").hide();
             $("#submit-results").hide();
-            $("#startOver").show();
+            $("#playAgain").show();
         }
     }
 })
@@ -62,7 +61,7 @@ $("#submit-results").on("click", function () {
     $("#quiz").hide();
     $("#timer").hide();
     $("#submit-results").hide();
-    $("#startOver").show();
+    $("#playAgain").show();
     $("#finalScore").show();
     clearInterval(intervalId);
 
@@ -73,17 +72,17 @@ $("#submit-results").on("click", function () {
         finalScore += radioValue;
     })
 
-    var Score = (parseInt(finalScore) / possibleScore).toFixed(3);
-    //if/else based on how well you did.
+    var score = (parseInt(finalScore) / possibleScore).toFixed(3);
+
     if (finalScore <= 3) {
-        $("#finalScore").text("<h4>Hmmm Maybe you should try again... <br><br>Final Score: " + Score);
+        $("#finalScore").html("<h4>Maybe you need to try a pet rock? <br><br>Score: </h4>" + score);
     } else if (finalScore >= 7) {
-        $("#finalScore").text("<h4> WooHoo! You know so much about reptiles!!! <br><br>Final Score: " + Score);
+        $("#finalScore").html("<h4>Great Job! You're ready for a dragon! <br><br>Score: </h4>" + score);
     } else {
-        $("#finalScore").text("<h4>Mabe stick with a puppy <br><br>Final: " + Score);
+        $("#finalScore").html("<h4> Please don't adopt a reptile! <br><br>Score: </h4>" + score);
     }
 })
 
-$("#finalScore").on("click", function () {
+$("#playAgain").on("click", function () {
     reset();
 })
