@@ -45,11 +45,11 @@ $("#start").on("click", function () {
 
         time--;
 
-        $("#time-left").html("<h4>Time Remaining: </h4><br><h2>" + time + "</h2>");
+        $("#time-left").html("Time Remaining: " + time);
 
         if (time === 0) {
             clearInterval(intervalId);
-            $("#time-left").html("<h2>Time's Up!</h2>");
+            $("#time-left").html("Time's Up!");
             $("#quiz").hide();
             $("#submit-results").hide();
             $("#playAgain").show();
@@ -57,7 +57,8 @@ $("#start").on("click", function () {
     }
 })
 
-$("#submit-results").on("click", function () {
+$("#submit-results").on("click", function (event) {
+    event.preventDefault()
     $("#quiz").hide();
     $("#timer").hide();
     $("#submit-results").hide();
@@ -68,18 +69,20 @@ $("#submit-results").on("click", function () {
     var radios = $('input[type="radio"]:checked');
 
     radios.each(function (index, radio) {
+        console.log(index + "INDEX")
+        console.log(radio.value + "RADIO")
         var radioValue = parseInt(radio.value);
         finalScore += radioValue;
     })
 
-    var score = (parseInt(finalScore) / possibleScore).toFixed(3);
-
+    var score = ((parseInt(finalScore) / possibleScore) * 100);
+    console.log(score)
     if (finalScore <= 3) {
-        $("#finalScore").html("<h4>Maybe you need to try a pet rock? <br><br>Score: </h4>" + score);
+        $("#finalScore").text("Maybe you need to try a pet rock? Score: " + score);
     } else if (finalScore >= 7) {
-        $("#finalScore").html("<h4>Great Job! You're ready for a dragon! <br><br>Score: </h4>" + score);
+        $("#finalScore").text("Great Job! You're ready for a dragon! Score: " + score);
     } else {
-        $("#finalScore").html("<h4> Please don't adopt a reptile! <br><br>Score: </h4>" + score);
+        $("#finalScore").text("Please don't adopt a reptile! Score: " + score);
     }
 })
 
